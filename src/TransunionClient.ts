@@ -70,12 +70,10 @@ export class TransunionClient {
     const record = data?.creditBureau?.product?.subject?.subjectRecord;
     if (record) {
       const creditScore = record.addOnProduct?.scoreModel?.score?.results;
-      const creditSummary = record.custom?.credit?.creditSummary;
       if (creditScore) {
         return {
           creditScore,
           socialSecurityNumber: record.indicative?.socialSecurity?.number,
-          creditSummary,
         };
       }
     }
