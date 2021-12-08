@@ -38,4 +38,4 @@ const client = new TransunionClient({
 
 ## Usage
 
-Everything is 100% typed. Refer to types for documentation.
+Documentation can be found here: https://rkingon.github.io/transunion-tuna-node/

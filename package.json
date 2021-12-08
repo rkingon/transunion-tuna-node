@@ -35,6 +35,11 @@
   },
   "name": "@rkingon/transunion-tuna-node",
   "author": "Roi Kingon",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rkingon/transunion-tuna-node"
+  },
+  "homepage": "https://rkingon.github.io/transunion-tuna-node",
   "module": "dist/transunion-tuna-node.esm.js",
   "size-limit": [
     {
