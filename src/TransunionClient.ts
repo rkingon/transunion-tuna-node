@@ -20,12 +20,17 @@ export interface TransunionClientOptions {
   system: SystemCredentials;
   subscriber: Subscriber;
   certificate: Buffer;
+  production: boolean;
 }
 
 export class TransunionClient {
   private readonly axios: AxiosInstance;
 
   constructor(private readonly options: TransunionClientOptions) {
+    const baseURL =
+      options.production === true
+        ? 'https://netaccess.transunion.com'
+        : 'https://netaccess-test.transunion.com';
     const httpsAgent = new https.Agent({
       pfx: this.options.certificate,
       passphrase: this.options.system.password,
@@ -33,7 +38,7 @@ export class TransunionClient {
       timeout: 10000,
     });
     this.axios = Axios.create({
-      baseURL: 'https://netaccess-test.transunion.com',
+      baseURL,
       headers: { 'Content-Type': 'text/xml' },
       httpsAgent,
     });
@@ -53,6 +58,7 @@ export class TransunionClient {
         code: productCode,
         body: createSubjects(subjects),
       },
+      production: this.options.production,
     });
     const response = await this.axios({
       method: 'POST',
