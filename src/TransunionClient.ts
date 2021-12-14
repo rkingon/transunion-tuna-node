@@ -1,8 +1,17 @@
-import Axios, { AxiosInstance } from 'axios';
+import Axios, { AxiosInstance, AxiosResponse } from 'axios';
 import https from 'https';
 import { XMLWrapper } from './XMLWrapper';
 import { xmlParser } from './lib/xml';
 import { createSubjects, Subject } from './Subject';
+import {
+  tradeLinesHandler,
+  TradeLinesHandlerResponse,
+} from './TradeLinesHandler';
+import {
+  AddonHandlerResponse,
+  addonProductHandler,
+} from './AddonProductHandler';
+import { indicativeHandler, IndicativeResponse } from './IndicativeHandler';
 
 export interface SystemCredentials {
   id: string;
@@ -22,6 +31,20 @@ export interface TransunionClientOptions {
   certificate: Buffer;
   production: boolean;
 }
+
+export type RequestOptions<T extends Record<string, unknown> = {}> = T & {
+  subscriber?: Partial<Subscriber>;
+  subjects: Subject[];
+};
+
+export type RequestResponse = AddonHandlerResponse &
+  IndicativeResponse &
+  TradeLinesHandlerResponse & {
+    rawRequest: string;
+    rawResponse: string;
+  };
+
+export interface CreditLine {}
 
 export class TransunionClient {
   private readonly axios: AxiosInstance;
@@ -47,42 +70,56 @@ export class TransunionClient {
   private async request({
     productCode,
     subjects,
+    subscriber,
   }: {
     productCode: string;
     subjects: Subject[];
+    subscriber?: Partial<Subscriber>;
   }) {
     const xml = XMLWrapper({
       system: this.options.system,
-      subscriber: this.options.subscriber,
+      subscriber: {
+        ...this.options.subscriber,
+        ...subscriber,
+      },
       product: {
         code: productCode,
         body: createSubjects(subjects),
       },
       production: this.options.production,
     });
-    const response = await this.axios({
+    const { data }: AxiosResponse<string> = await this.axios({
       method: 'POST',
       data: xml,
     });
-    const parsed = xmlParser.parse(response.data);
-    return parsed;
+    const parsed: Record<string, any> = xmlParser.parse(data);
+    const returnResponse: RequestResponse = {
+      rawRequest: xml,
+      rawResponse: data,
+    };
+    const record = parsed?.creditBureau?.product?.subject?.subjectRecord;
+    if (record) {
+      const addons = addonProductHandler(record.addOnProduct);
+      const indicative = indicativeHandler(record.indicative);
+      const tradeLines = tradeLinesHandler(record.custom?.credit?.trade);
+      Object.assign(returnResponse, addons, indicative, tradeLines);
+    }
+    return returnResponse;
   }
 
-  public async modelReport({ subjects }: { subjects: Subject[] }) {
-    const data = await this.request({
+  public async modelReport({ subscriber, subjects }: RequestOptions) {
+    return this.request({
       productCode: '08000',
       subjects,
+      subscriber,
     });
-    const record = data?.creditBureau?.product?.subject?.subjectRecord;
-    if (record) {
-      const creditScore = record.addOnProduct?.scoreModel?.score?.results;
-      if (creditScore) {
-        return {
-          creditScore,
-          socialSecurityNumber: record.indicative?.socialSecurity?.number,
-        };
-      }
-    }
-    return null;
+  }
+
+  public async creditReport({ subscriber, subjects }: RequestOptions) {
+    return this.request({
+      productCode: '07000',
+      subjects,
+      subscriber,
+    });
   }
 }
