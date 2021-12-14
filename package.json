@@ -28,7 +28,7 @@
     }
   },
   "prettier": {
-    "printWidth": 80,
+    "printWidth": 120,
     "semi": true,
     "singleQuote": true,
     "trailingComma": "es5"
@@ -54,6 +54,7 @@
   "devDependencies": {
     "@size-limit/preset-small-lib": "^7.0.3",
     "husky": "^7.0.4",
+    "prettier": "^2.5.1",
     "serve": "^13.0.2",
     "size-limit": "^7.0.4",
     "tsdx": "^0.14.1",

@@ -8,12 +8,7 @@ export interface TransunionTradeLine {
       unparsed: string;
     };
   };
-  portfolioType:
-    | 'installment'
-    | 'mortgage'
-    | 'revolving'
-    | 'open'
-    | 'lineOfCredit';
+  portfolioType: 'installment' | 'mortgage' | 'revolving' | 'open' | 'lineOfCredit';
   accountNumber: string;
   ECOADesignator: 'individual' | 'jointContractLiability' | 'participant';
   dateOpened: string;
@@ -40,10 +35,7 @@ export interface TransunionTradeLine {
 }
 
 export interface ParsedTradeLine
-  extends Pick<
-    TransunionTradeLine,
-    'dateOpened' | 'dateEffective' | 'dateClosed' | 'currentBalance'
-  > {
+  extends Pick<TransunionTradeLine, 'dateOpened' | 'dateEffective' | 'dateClosed' | 'currentBalance'> {
   estimatedInterestRate?: number;
   monthlyPayment?: number;
   openingBalance: number;
@@ -90,12 +82,10 @@ const parseTradeLine = (tuCreditLine: TransunionTradeLine): ParsedTradeLine => {
   return tradeLine;
 };
 
-export function tradeLinesHandler(
-  tradeLines?: TransunionTradeLine[]
-): TradeLinesHandlerResponse {
+export function tradeLinesHandler(tradeLines?: TransunionTradeLine[]): TradeLinesHandlerResponse {
   if (tradeLines?.length) {
     return {
-      tradeLines: tradeLines.map(tradeLine => parseTradeLine(tradeLine)),
+      tradeLines: tradeLines.map((tradeLine) => parseTradeLine(tradeLine)),
     };
   }
   return {

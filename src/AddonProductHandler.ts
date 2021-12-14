@@ -8,9 +8,7 @@ export interface AddonHandlerResponse {
   vantageScore?: number;
 }
 
-export function addonProductHandler(
-  _addonProducts: AddonProduct | AddonProduct[]
-): AddonHandlerResponse {
+export function addonProductHandler(_addonProducts: AddonProduct | AddonProduct[]): AddonHandlerResponse {
   const response: AddonHandlerResponse = {};
   const addonProducts: AddonProduct[] = [_addonProducts].flat();
   for (const addonProduct of addonProducts) {

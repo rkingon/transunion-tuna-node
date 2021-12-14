@@ -12,14 +12,8 @@ export interface XMLWrapperOptions {
   production: boolean;
 }
 
-export const XMLWrapper = ({
-  system,
-  subscriber,
-  product,
-  production,
-}: XMLWrapperOptions) => {
-  const processingEnvironment =
-    production === true ? 'production' : 'standardTest';
+export const XMLWrapper = ({ system, subscriber, product, production }: XMLWrapperOptions) => {
+  const processingEnvironment = production === true ? 'production' : 'standardTest';
   return `<?xml version="1.0" encoding="utf-8"?>
 	<xmlrequest xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope" xmlns="http://www.netaccess.transunion.com/namespace">
 		<systemId>${system.id}</systemId>

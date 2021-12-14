@@ -3,14 +3,8 @@ import https from 'https';
 import { XMLWrapper } from './XMLWrapper';
 import { xmlParser } from './lib/xml';
 import { createSubjects, Subject } from './Subject';
-import {
-  tradeLinesHandler,
-  TradeLinesHandlerResponse,
-} from './TradeLinesHandler';
-import {
-  AddonHandlerResponse,
-  addonProductHandler,
-} from './AddonProductHandler';
+import { tradeLinesHandler, TradeLinesHandlerResponse } from './TradeLinesHandler';
+import { AddonHandlerResponse, addonProductHandler } from './AddonProductHandler';
 import { indicativeHandler, IndicativeResponse } from './IndicativeHandler';
 
 export interface SystemCredentials {
@@ -51,9 +45,7 @@ export class TransunionClient {
 
   constructor(private readonly options: TransunionClientOptions) {
     const baseURL =
-      options.production === true
-        ? 'https://netaccess.transunion.com'
-        : 'https://netaccess-test.transunion.com';
+      options.production === true ? 'https://netaccess.transunion.com' : 'https://netaccess-test.transunion.com';
     const httpsAgent = new https.Agent({
       pfx: this.options.certificate,
       passphrase: this.options.system.password,
