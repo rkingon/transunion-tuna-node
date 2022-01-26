@@ -1,4 +1,4 @@
-interface AddonProduct {
+export interface AddonProduct {
   [x: string]: any;
   code: string;
   status: string;
