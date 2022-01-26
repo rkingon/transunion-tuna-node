@@ -10,6 +10,10 @@
 	"homepage": "https://rkingon.github.io/transunion-tuna-node",
 	"main": "dist/index.js",
 	"typings": "dist/index.d.ts",
+	"files": [
+		"dist",
+		"src"
+	],
 	"scripts": {
 		"clean": "rimraf dist",
 		"dev": "tsc --watch",
