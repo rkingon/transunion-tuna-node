@@ -21,13 +21,13 @@ export interface Subscriber {
 
 export interface TransunionClientOptions {
 	system: SystemCredentials
-	subscriber: Subscriber
+	modelReportSubscriber: Subscriber
+	creditReportSubscriber: Subscriber
 	certificate: Buffer
 	production: boolean
 }
 
 export type RequestOptions<T extends Record<string, unknown> = {}> = T & {
-	subscriber?: Partial<Subscriber>
 	subjects: Subject[]
 }
 
@@ -79,14 +79,11 @@ export class TransunionClient {
 	}: {
 		productCode: string
 		subjects: Subject[]
-		subscriber?: Partial<Subscriber>
+		subscriber: Subscriber
 	}) {
 		const xml = XMLWrapper({
 			system: this.options.system,
-			subscriber: {
-				...this.options.subscriber,
-				...subscriber
-			},
+			subscriber,
 			product: {
 				code: productCode,
 				body: createSubjects(subjects)
@@ -119,19 +116,19 @@ export class TransunionClient {
 		}
 	}
 
-	public async modelReport({ subscriber, subjects }: RequestOptions) {
+	public async modelReport({ subjects }: RequestOptions) {
 		return this.request({
 			productCode: '08000',
-			subjects,
-			subscriber
+			subscriber: this.options.modelReportSubscriber,
+			subjects
 		})
 	}
 
-	public async creditReport({ subscriber, subjects }: RequestOptions) {
+	public async creditReport({ subjects }: RequestOptions) {
 		return this.request({
 			productCode: '07000',
-			subjects,
-			subscriber
+			subscriber: this.options.creditReportSubscriber,
+			subjects
 		})
 	}
 }
