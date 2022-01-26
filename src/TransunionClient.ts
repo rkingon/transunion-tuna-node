@@ -38,7 +38,20 @@ export type RequestResponse = AddonHandlerResponse &
     rawResponse: string;
   };
 
+export interface RequestErrorResponse {
+  error: Error;
+  rawRequest: RequestResponse['rawRequest'];
+}
+
 export interface CreditLine {}
+
+class RequestError extends Error {
+  public rawRequest: string;
+  constructor({ rawRequest, message }: { rawRequest: string; message: string }) {
+    super(message);
+    this.rawRequest = rawRequest;
+  }
+}
 
 export class TransunionClient {
   private readonly axios: AxiosInstance;
@@ -80,23 +93,30 @@ export class TransunionClient {
       },
       production: this.options.production,
     });
-    const { data }: AxiosResponse<string> = await this.axios({
-      method: 'POST',
-      data: xml,
-    });
-    const parsed: Record<string, any> = xmlParser.parse(data);
-    const returnResponse: RequestResponse = {
-      rawRequest: xml,
-      rawResponse: data,
-    };
-    const record = parsed?.creditBureau?.product?.subject?.subjectRecord;
-    if (record) {
-      const addons = addonProductHandler(record.addOnProduct);
-      const indicative = indicativeHandler(record.indicative);
-      const tradeLines = tradeLinesHandler(record.custom?.credit?.trade);
-      Object.assign(returnResponse, addons, indicative, tradeLines);
+    try {
+      const { data }: AxiosResponse<string> = await this.axios({
+        method: 'POST',
+        data: xml,
+      });
+      const parsed: Record<string, any> = xmlParser.parse(data);
+      const returnResponse: RequestResponse = {
+        rawRequest: xml,
+        rawResponse: data,
+      };
+      const record = parsed?.creditBureau?.product?.subject?.subjectRecord;
+      if (record) {
+        const addons = addonProductHandler(record.addOnProduct);
+        const indicative = indicativeHandler(record.indicative);
+        const tradeLines = tradeLinesHandler(record.custom?.credit?.trade);
+        Object.assign(returnResponse, addons, indicative, tradeLines);
+      }
+      return returnResponse;
+    } catch (err) {
+      throw new RequestError({
+        message: `${err}`,
+        rawRequest: xml,
+      });
     }
-    return returnResponse;
   }
 
   public async modelReport({ subscriber, subjects }: RequestOptions) {
