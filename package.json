@@ -1,38 +1,6 @@
 {
   "version": "0.1.2",
   "license": "MIT",
-  "main": "dist/index.js",
-  "typings": "dist/index.d.ts",
-  "files": [
-    "dist",
-    "src"
-  ],
-  "engines": {
-    "node": ">=10"
-  },
-  "scripts": {
-    "start": "tsdx watch",
-    "build": "tsdx build",
-    "test": "tsdx test",
-    "lint": "tsdx lint",
-    "prepare": "tsdx build",
-    "size": "size-limit",
-    "analyze": "size-limit --why",
-    "docs:build": "typedoc src/index.ts",
-    "docs:start": "serve ./docs"
-  },
-  "peerDependencies": {},
-  "husky": {
-    "hooks": {
-      "pre-commit": "tsdx lint"
-    }
-  },
-  "prettier": {
-    "printWidth": 120,
-    "semi": true,
-    "singleQuote": true,
-    "trailingComma": "es5"
-  },
   "name": "@rkingon/transunion-tuna-node",
   "author": "Roi Kingon",
   "repository": {
@@ -40,30 +8,32 @@
     "url": "https://github.com/rkingon/transunion-tuna-node"
   },
   "homepage": "https://rkingon.github.io/transunion-tuna-node",
-  "module": "dist/transunion-tuna-node.esm.js",
-  "size-limit": [
-    {
-      "path": "dist/transunion-tuna-node.cjs.production.min.js",
-      "limit": "10 KB"
-    },
-    {
-      "path": "dist/transunion-tuna-node.esm.js",
-      "limit": "10 KB"
-    }
-  ],
-  "devDependencies": {
-    "@size-limit/preset-small-lib": "^7.0.3",
-    "husky": "^7.0.4",
-    "prettier": "^2.5.1",
-    "serve": "^13.0.2",
-    "size-limit": "^7.0.4",
-    "tsdx": "^0.14.1",
-    "tslib": "^2.3.1",
-    "typedoc": "^0.22.10",
-    "typescript": "^4.5.2"
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "scripts": {
+    "clean": "rimraf dist",
+    "dev": "tsc --watch",
+    "build": "yarn clean && tsc -p tsconfig.build.json",
+    "test": "jest",
+    "format": "prettier --write .",
+    "docs:build": "rimraf docs && typedoc src/index.ts",
+    "docs:start": "serve ./docs"
   },
   "dependencies": {
     "axios": "^0.24.0",
     "fast-xml-parser": "^4.0.0-beta.6"
+  },
+  "devDependencies": {
+    "@types/jest": "^27.4.0",
+    "@types/node": "^17.0.12",
+    "jest": "^27.4.7",
+    "prettier": "^2.5.1",
+    "rimraf": "^3.0.2",
+    "serve": "^13.0.2",
+    "ts-jest": "^27.1.3",
+    "ts-node": "^10.4.0",
+    "tslib": "^2.3.1",
+    "typedoc": "^0.22.10",
+    "typescript": "^4.5.2"
   }
 }
