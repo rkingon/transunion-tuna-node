@@ -47,9 +47,11 @@ export interface CreditLine {}
 
 class RequestError extends Error {
 	public rawRequest: string
-	constructor({ rawRequest, message }: { rawRequest: string; message: string }) {
+	public rawResponse?: string
+	constructor({ rawRequest, rawResponse, message }: { rawRequest: string; rawResponse?: string; message: string }) {
 		super(message)
 		this.rawRequest = rawRequest
+		this.rawResponse = rawResponse
 	}
 }
 
@@ -96,23 +98,40 @@ export class TransunionClient {
 				data: xml
 			})
 			const parsed: Record<string, any> = xmlParser.parse(data)
-			const returnResponse: RequestResponse = {
-				rawRequest: xml,
-				rawResponse: data
+			const product = parsed?.creditBureau?.product
+			if (product) {
+				const error: { code: number; description: string } = product.error
+				if (error) {
+					throw new RequestError({
+						rawRequest: xml,
+						rawResponse: data,
+						message: `${error.description} (CODE: ${error.code})`
+					})
+				}
+				const returnResponse: RequestResponse = {
+					rawRequest: xml,
+					rawResponse: data
+				}
+				const record = parsed?.creditBureau?.product?.subject?.subjectRecord
+				if (record) {
+					const addons = addonProductHandler(record.addOnProduct)
+					const indicative = indicativeHandler(record.indicative)
+					const tradeLines = tradeLinesHandler(record.custom?.credit?.trade)
+					Object.assign(returnResponse, addons, indicative, tradeLines)
+				}
+				return returnResponse
+			} else {
+				throw new Error('Product Error')
 			}
-			const record = parsed?.creditBureau?.product?.subject?.subjectRecord
-			if (record) {
-				const addons = addonProductHandler(record.addOnProduct)
-				const indicative = indicativeHandler(record.indicative)
-				const tradeLines = tradeLinesHandler(record.custom?.credit?.trade)
-				Object.assign(returnResponse, addons, indicative, tradeLines)
-			}
-			return returnResponse
 		} catch (err) {
-			throw new RequestError({
-				message: `${err}`,
-				rawRequest: xml
-			})
+			if (err instanceof RequestError) {
+				throw err
+			} else {
+				throw new RequestError({
+					message: `${err}`,
+					rawRequest: xml
+				})
+			}
 		}
 	}
 
