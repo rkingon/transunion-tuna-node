@@ -1,15 +1,15 @@
 export interface Indicative {
-  socialSecurity: {
-    number: string;
-  };
+	socialSecurity: {
+		number: string
+	}
 }
 
 export interface IndicativeResponse {
-  socialSecurityNumber?: string;
+	socialSecurityNumber?: string
 }
 
 export function indicativeHandler(indicative: Indicative): IndicativeResponse {
-  return {
-    socialSecurityNumber: indicative?.socialSecurity?.number,
-  };
+	return {
+		socialSecurityNumber: indicative?.socialSecurity?.number
+	}
 }

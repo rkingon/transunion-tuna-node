@@ -1,20 +1,20 @@
-import { SystemCredentials, Subscriber } from '.';
+import { SystemCredentials, Subscriber } from '.'
 
 export interface Product {
-  code: string;
-  body: string;
+	code: string
+	body: string
 }
 
 export interface XMLWrapperOptions {
-  system: SystemCredentials;
-  subscriber: Subscriber;
-  product: Product;
-  production: boolean;
+	system: SystemCredentials
+	subscriber: Subscriber
+	product: Product
+	production: boolean
 }
 
 export const XMLWrapper = ({ system, subscriber, product, production }: XMLWrapperOptions) => {
-  const processingEnvironment = production === true ? 'production' : 'standardTest';
-  return `<?xml version="1.0" encoding="utf-8"?>
+	const processingEnvironment = production === true ? 'production' : 'standardTest'
+	return `<?xml version="1.0" encoding="utf-8"?>
 	<xmlrequest xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope" xmlns="http://www.netaccess.transunion.com/namespace">
 		<systemId>${system.id}</systemId>
 		<systemPassword>${system.password}</systemPassword>
@@ -50,5 +50,5 @@ export const XMLWrapper = ({ system, subscriber, product, production }: XMLWrapp
 				</product>
 			</creditBureau>
 		</productrequest>
-	</xmlrequest>`;
-};
+	</xmlrequest>`
+}

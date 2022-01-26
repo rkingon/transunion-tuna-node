@@ -19,21 +19,21 @@ yarn add @rkingon/transunion-tuna-node
 ## Setup
 
 ```typescript
-import { TransunionClient } from '@rkingon/transunion-tuna-node';
+import { TransunionClient } from '@rkingon/transunion-tuna-node'
 
 const client = new TransunionClient({
-  system: {
-    id: string,
-    password: string,
-  },
-  subscriber: {
-    industryCode: string,
-    memberCode: string,
-    prefix: string,
-    password: string,
-  },
-  certificate: Buffer,
-});
+	system: {
+		id: string,
+		password: string
+	},
+	subscriber: {
+		industryCode: string,
+		memberCode: string,
+		prefix: string,
+		password: string
+	},
+	certificate: Buffer
+})
 ```
 
 ## Usage
