@@ -26,13 +26,19 @@ const client = new TransunionClient({
 		id: string,
 		password: string
 	},
-	subscriber: {
+	certificate: Buffer,
+	modelReportSubscriber: {
 		industryCode: string,
 		memberCode: string,
 		prefix: string,
 		password: string
 	},
-	certificate: Buffer
+	creditReportSubscriber: {
+		industryCode: string,
+		memberCode: string,
+		prefix: string,
+		password: string
+	}
 })
 ```
 
