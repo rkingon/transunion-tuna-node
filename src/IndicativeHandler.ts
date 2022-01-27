@@ -10,6 +10,6 @@ export interface IndicativeResponse {
 
 export function indicativeHandler(indicative: Indicative): IndicativeResponse {
 	return {
-		socialSecurityNumber: indicative?.socialSecurity?.number
+		socialSecurityNumber: `${indicative?.socialSecurity?.number}`
 	}
 }
