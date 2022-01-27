@@ -48,10 +48,22 @@ export interface CreditLine {}
 class RequestError extends Error {
 	public rawRequest: string
 	public rawResponse?: string
-	constructor({ rawRequest, rawResponse, message }: { rawRequest: string; rawResponse?: string; message: string }) {
+	public httpError?: Error
+	constructor({
+		rawRequest,
+		rawResponse,
+		httpError,
+		message
+	}: {
+		rawRequest: string
+		rawResponse?: string
+		httpError?: Error
+		message: string
+	}) {
 		super(message)
 		this.rawRequest = rawRequest
 		this.rawResponse = rawResponse
+		this.httpError = httpError
 	}
 }
 
@@ -129,6 +141,7 @@ export class TransunionClient {
 			} else {
 				throw new RequestError({
 					message: `${err}`,
+					httpError: err as Error,
 					rawRequest: xml
 				})
 			}
