@@ -1,5 +1,6 @@
 import nock from 'nock'
 import { Subject, Subscriber, TransunionClient } from '.'
+import creditReportResponse from './__fixtures/creditReportResponse'
 import modelReportResponse from './__fixtures/modelReportResponse'
 
 const fauxSubscriber: Subscriber = {
@@ -47,5 +48,14 @@ describe('TransunionClient', () => {
 		expect(vantageScore).toBe(667)
 		expect(socialSecurityNumber).toBe('666484418')
 		expect(tradeLines).toHaveLength(0)
+	})
+	test('creditReport', async () => {
+		nock(client.apiUrl).post('/').reply(200, creditReportResponse)
+		const { vantageScore, socialSecurityNumber, tradeLines } = await client.modelReport({
+			subjects: [TigerWoods]
+		})
+		expect(vantageScore).toBe(667)
+		expect(socialSecurityNumber).toBe('666484418')
+		expect(tradeLines?.length).toBeGreaterThan(0)
 	})
 })
