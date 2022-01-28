@@ -69,9 +69,10 @@ class RequestError extends Error {
 
 export class TransunionClient {
 	private readonly axios: AxiosInstance
+	public readonly apiUrl: string
 
 	constructor(private readonly options: TransunionClientOptions) {
-		const baseURL =
+		this.apiUrl =
 			options.production === true ? 'https://netaccess.transunion.com' : 'https://netaccess-test.transunion.com'
 		const httpsAgent = new https.Agent({
 			pfx: this.options.certificate,
@@ -80,7 +81,7 @@ export class TransunionClient {
 			timeout: 10000
 		})
 		this.axios = Axios.create({
-			baseURL,
+			baseURL: this.apiUrl,
 			headers: { 'Content-Type': 'text/xml' },
 			httpsAgent
 		})
