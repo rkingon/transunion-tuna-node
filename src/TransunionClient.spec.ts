@@ -1,10 +1,25 @@
-import { Subscriber, TransunionClient } from '.'
+import nock from 'nock'
+import { Subject, Subscriber, TransunionClient } from '.'
+import modelReportResponse from './__fixtures/modelReportResponse'
 
 const fauxSubscriber: Subscriber = {
 	industryCode: 'x',
 	memberCode: 'memberCode',
 	password: 'password',
 	prefix: 'prefix'
+}
+
+const TigerWoods: Subject = {
+	name: {
+		first: 'Tiger',
+		last: 'Woods'
+	},
+	address: {
+		street: '2604 Washington Road',
+		city: 'Augusta',
+		state: 'GA',
+		zipCode: '30904'
+	}
 }
 
 describe('TransunionClient', () => {
@@ -23,5 +38,14 @@ describe('TransunionClient', () => {
 	})
 	it('works', () => {
 		expect(client).toBeInstanceOf(TransunionClient)
+	})
+	test('modelReport', async () => {
+		nock(client.apiUrl).post('/').reply(200, modelReportResponse)
+		const { vantageScore, socialSecurityNumber, tradeLines } = await client.modelReport({
+			subjects: [TigerWoods]
+		})
+		expect(vantageScore).toBe(667)
+		expect(socialSecurityNumber).toBe('666484418')
+		expect(tradeLines).toHaveLength(0)
 	})
 })
