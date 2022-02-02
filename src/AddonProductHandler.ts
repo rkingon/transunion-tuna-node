@@ -5,7 +5,7 @@ export interface AddonProduct {
 }
 
 export interface AddonHandlerResponse {
-	vantageScore?: number
+	vantageScore?: string
 }
 
 export function addonProductHandler(_addonProducts: AddonProduct | AddonProduct[]): AddonHandlerResponse {

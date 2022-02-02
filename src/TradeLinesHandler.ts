@@ -15,20 +15,20 @@ export interface TransunionTradeLine {
 	dateEffective: string
 	dateClosed?: string
 	closedIndicator: string
-	currentBalance?: number
-	highCredit: number
-	accountRating: number
+	currentBalance?: string
+	highCredit: string
+	accountRating: string
 	remark: {
 		code: string
 		type: string
 	}
 	terms?: {
 		paymentFrequency?: 'monthly'
-		paymentScheduleMonthCount?: number
-		scheduledMonthlyPayment?: number
+		paymentScheduleMonthCount?: string
+		scheduledMonthlyPayment?: string
 	}
 	account: { type: string }
-	pastDue: number
+	pastDue: string
 	paymentHistory: any
 	mostRecentPayment: { date: string }
 	updateMethod: string
@@ -36,10 +36,10 @@ export interface TransunionTradeLine {
 
 export interface ParsedTradeLine
 	extends Pick<TransunionTradeLine, 'dateOpened' | 'dateEffective' | 'dateClosed' | 'currentBalance'> {
-	estimatedInterestRate?: number
-	monthlyPayment?: number
-	openingBalance: number
-	termLengthMonths?: number
+	estimatedInterestRate?: string
+	monthlyPayment?: string
+	openingBalance: string
+	termLengthMonths?: string
 	subscriberName: TransunionTradeLine['subscriber']['name']['unparsed']
 	type: TransunionTradeLine['account']['type']
 }
@@ -68,16 +68,14 @@ const parseTradeLine = (tuCreditLine: TransunionTradeLine): ParsedTradeLine => {
 			tuCreditLine.highCredit
 		) {
 			const estimatedInterestRate = rate(
-				tuCreditLine.terms.paymentScheduleMonthCount,
-				tuCreditLine.terms.scheduledMonthlyPayment,
-				tuCreditLine.highCredit
+				+tuCreditLine.terms.paymentScheduleMonthCount,
+				+tuCreditLine.terms.scheduledMonthlyPayment,
+				+tuCreditLine.highCredit
 			)
-			tradeLine.estimatedInterestRate = +estimatedInterestRate
+			tradeLine.estimatedInterestRate = estimatedInterestRate
 		}
 		tradeLine.monthlyPayment = tuCreditLine.terms.scheduledMonthlyPayment
-		if (typeof tuCreditLine.terms.paymentScheduleMonthCount === 'number') {
-			tradeLine.termLengthMonths = tuCreditLine.terms.paymentScheduleMonthCount
-		}
+		tradeLine.termLengthMonths = tuCreditLine.terms.paymentScheduleMonthCount
 	}
 	return tradeLine
 }
