@@ -12,7 +12,7 @@ export function addonProductHandler(_addonProducts: AddonProduct | AddonProduct[
 	const response: AddonHandlerResponse = {}
 	const addonProducts: AddonProduct[] = [_addonProducts].flat()
 	for (const addonProduct of addonProducts) {
-		switch (addonProduct.code) {
+		switch (addonProduct?.code) {
 			case '00V60': {
 				response.vantageScore = addonProduct.scoreModel?.score?.results
 				break
