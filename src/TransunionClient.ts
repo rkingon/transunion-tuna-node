@@ -45,7 +45,7 @@ export interface RequestErrorResponse {
 
 export interface CreditLine {}
 
-class RequestError extends Error {
+export class RequestError extends Error {
 	public rawRequest: string
 	public rawResponse?: string
 	public httpError?: Error
