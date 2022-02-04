@@ -9,7 +9,8 @@ export interface IndicativeResponse {
 }
 
 export function indicativeHandler(indicative: Indicative): IndicativeResponse {
+	let ssn = `${indicative?.socialSecurity?.number}`.replace(/\D/g, '')
 	return {
-		socialSecurityNumber: `${indicative?.socialSecurity?.number}`
+		socialSecurityNumber: ssn
 	}
 }

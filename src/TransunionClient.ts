@@ -1,4 +1,4 @@
-import Axios, { AxiosInstance, AxiosResponse } from 'axios'
+import Axios, { AxiosError, AxiosInstance, AxiosResponse } from 'axios'
 import https from 'https'
 import { XMLWrapper } from './XMLWrapper'
 import { xmlParser } from './lib/xml'
@@ -43,12 +43,17 @@ export interface RequestErrorResponse {
 	rawRequest: RequestResponse['rawRequest']
 }
 
+export interface ProductError {
+	code: number
+	description: string
+}
+
 export interface CreditLine {}
 
 export class RequestError extends Error {
 	public rawRequest: string
 	public rawResponse?: string
-	public httpError?: Error
+	public httpError?: AxiosError
 	constructor({
 		rawRequest,
 		rawResponse,
@@ -57,7 +62,7 @@ export class RequestError extends Error {
 	}: {
 		rawRequest: string
 		rawResponse?: string
-		httpError?: Error
+		httpError?: AxiosError
 		message: string
 	}) {
 		super(message)
@@ -96,7 +101,7 @@ export class TransunionClient {
 		subjects: Subject[]
 		subscriber: Subscriber
 	}) {
-		const xml = XMLWrapper({
+		const xmlRequest = XMLWrapper({
 			system: this.options.system,
 			subscriber,
 			product: {
@@ -105,47 +110,54 @@ export class TransunionClient {
 			},
 			production: this.options.production
 		})
+		let xmlResponse: string
 		try {
 			const { data }: AxiosResponse<string> = await this.axios({
 				method: 'POST',
-				data: xml
+				data: xmlRequest
 			})
-			const parsed: Record<string, any> = xmlParser.parse(data)
-			const product = parsed?.creditBureau?.product
-			if (product) {
-				const error: { code: number; description: string } = product.error
-				if (error) {
-					throw new RequestError({
-						rawRequest: xml,
-						rawResponse: data,
-						message: `${error.description} (CODE: ${error.code})`
-					})
-				}
-				const returnResponse: RequestResponse = {
-					rawRequest: xml,
-					rawResponse: data
-				}
-				const record = parsed?.creditBureau?.product?.subject?.subjectRecord
-				if (record) {
-					const addons = addonProductHandler(record.addOnProduct)
-					const indicative = indicativeHandler(record.indicative)
-					const tradeLines = tradeLinesHandler(record.custom?.credit?.trade)
-					Object.assign(returnResponse, addons, indicative, tradeLines)
-				}
-				return returnResponse
-			} else {
-				throw new Error('Product Error')
-			}
+			xmlResponse = data
 		} catch (err) {
-			if (err instanceof RequestError) {
-				throw err
-			} else {
+			if (Axios.isAxiosError(err)) {
 				throw new RequestError({
-					message: `${err}`,
-					httpError: err as Error,
-					rawRequest: xml
+					message: err.message,
+					rawRequest: xmlRequest,
+					rawResponse: err.response?.data,
+					httpError: err
+				})
+			} else {
+				throw err
+			}
+		}
+		const parsed: Record<string, any> = xmlParser.parse(xmlResponse)
+		const product = parsed?.creditBureau?.product
+		if (product) {
+			const error: ProductError = product.error
+			if (error) {
+				throw new RequestError({
+					rawRequest: xmlRequest,
+					rawResponse: xmlResponse,
+					message: `${error.description} (CODE: ${error.code})`
 				})
 			}
+			const returnResponse: RequestResponse = {
+				rawRequest: xmlResponse,
+				rawResponse: xmlResponse
+			}
+			const record = parsed?.creditBureau?.product?.subject?.subjectRecord
+			if (record) {
+				const addons = addonProductHandler(record.addOnProduct)
+				const indicative = indicativeHandler(record.indicative)
+				const tradeLines = tradeLinesHandler(record.custom?.credit?.trade)
+				Object.assign(returnResponse, addons, indicative, tradeLines)
+			}
+			return returnResponse
+		} else {
+			throw new RequestError({
+				rawRequest: xmlRequest,
+				rawResponse: xmlResponse,
+				message: `Missing Product`
+			})
 		}
 	}
 
