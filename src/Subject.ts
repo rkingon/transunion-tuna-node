@@ -14,6 +14,7 @@ export interface Subject {
 		zipCode: string | number
 	}
 	socialSecurityNumber?: string
+	dateOfBirth?: string
 }
 
 export const createSubjects = (subjects: Subject[]): string => {
@@ -45,7 +46,8 @@ export const createSubjects = (subjects: Subject[]): string => {
 					indicative: {
 						name,
 						address,
-						socialSecurityNumber: subject.socialSecurityNumber
+						socialSecurityNumber: subject.socialSecurityNumber,
+						dateOfBirth: subject.dateOfBirth
 					}
 				}
 			}
