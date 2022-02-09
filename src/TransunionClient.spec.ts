@@ -45,7 +45,7 @@ describe('TransunionClient', () => {
 		const { vantageScore, socialSecurityNumber, tradeLines } = await client.modelReport({
 			subjects: [TigerWoods]
 		})
-		expect(vantageScore).toBe(667)
+		expect(+vantageScore!).toBe(667)
 		expect(socialSecurityNumber).toBe('666484418')
 		expect(tradeLines).toHaveLength(0)
 	})
@@ -54,7 +54,7 @@ describe('TransunionClient', () => {
 		const { vantageScore, socialSecurityNumber, tradeLines } = await client.modelReport({
 			subjects: [TigerWoods]
 		})
-		expect(vantageScore).toBe(667)
+		expect(+vantageScore!).toBe(667)
 		expect(socialSecurityNumber).toBe('666484418')
 		expect(tradeLines?.length).toBeGreaterThan(0)
 	})

@@ -62,20 +62,28 @@ const parseTradeLine = (tuCreditLine: TransunionTradeLine): ParsedTradeLine => {
 		termLengthMonths: undefined
 	}
 	if (tuCreditLine.terms) {
+		tradeLine.monthlyPayment = tuCreditLine.terms.scheduledMonthlyPayment
 		if (
 			tuCreditLine.terms.paymentScheduleMonthCount &&
-			tuCreditLine.terms.scheduledMonthlyPayment &&
-			tuCreditLine.highCredit
+			isNaN(+tuCreditLine.terms.paymentScheduleMonthCount) === false
 		) {
-			const estimatedInterestRate = rate(
-				+tuCreditLine.terms.paymentScheduleMonthCount,
-				+tuCreditLine.terms.scheduledMonthlyPayment,
-				+tuCreditLine.highCredit
-			)
-			tradeLine.estimatedInterestRate = estimatedInterestRate
+			tradeLine.termLengthMonths = tuCreditLine.terms.paymentScheduleMonthCount
 		}
-		tradeLine.monthlyPayment = tuCreditLine.terms.scheduledMonthlyPayment
-		tradeLine.termLengthMonths = tuCreditLine.terms.paymentScheduleMonthCount
+		if (tradeLine.termLengthMonths && tradeLine.monthlyPayment && tradeLine.openingBalance) {
+			const estimatedInterestRate = rate(
+				+tradeLine.termLengthMonths,
+				+tradeLine.monthlyPayment,
+				+tradeLine.openingBalance
+			)
+			if (
+				estimatedInterestRate &&
+				isNaN(+estimatedInterestRate) === false &&
+				+estimatedInterestRate > 0 &&
+				+estimatedInterestRate < 1
+			) {
+				tradeLine.estimatedInterestRate = estimatedInterestRate
+			}
+		}
 	}
 	return tradeLine
 }
