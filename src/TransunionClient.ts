@@ -25,6 +25,7 @@ export interface TransunionClientOptions {
 	creditReportSubscriber: Subscriber
 	certificate: Buffer
 	production: boolean
+	timeout?: number
 }
 
 export type RequestOptions<T extends Record<string, unknown> = {}> = T & {
@@ -88,6 +89,7 @@ export class TransunionClient {
 		this.axios = Axios.create({
 			baseURL: this.apiUrl,
 			headers: { 'Content-Type': 'text/xml' },
+			timeout: options.timeout,
 			httpsAgent
 		})
 	}
