@@ -7,6 +7,7 @@ export interface AddonProduct {
 export interface AddonHandlerResponse {
 	vantageScore?: string
 	creditVision?: {
+		autoTradeLineCount?: string
 		creditCardBalance?: string
 		unsecuredBalance?: string
 	}
@@ -14,7 +15,7 @@ export interface AddonHandlerResponse {
 
 export interface CreditVisionCharacteristic {
 	algorithmID: string
-	id: 'BC33S' | 'US33S'
+	id: 'AU01S' | 'BC33S' | 'US33S'
 	value: string
 }
 
@@ -32,6 +33,9 @@ export function addonProductHandler(_addonProducts: AddonProduct | AddonProduct[
 				const characteristics: CreditVisionCharacteristic[] = addonProduct.scoreModel?.characteristic || []
 				for (const { id, value } of characteristics) {
 					switch (id) {
+						case 'AU01S': {
+							response.creditVision.autoTradeLineCount = value
+						}
 						case 'BC33S': {
 							response.creditVision.creditCardBalance = value
 							break

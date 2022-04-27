@@ -215,6 +215,11 @@ export default `<?xml version="1.0" encoding="UTF-8"?>
 					<status>defaultDelivered</status>
 					<scoreModel>
 						<characteristic>
+                            <algorithmID>00WR3</algorithmID>
+                            <id>AU01S</id>
+                            <value>0000000002</value>
+                        </characteristic>
+						<characteristic>
 							<algorithmID>00WR3</algorithmID>
 							<id>BC33S</id>
 							<value>000004321</value>
