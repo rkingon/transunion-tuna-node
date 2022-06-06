@@ -11,6 +11,14 @@ export interface AddonHandlerResponse {
 		creditCardBalance?: string
 		unsecuredBalance?: string
 	}
+	autoSummary?: {
+		subscriberName: string
+		currentBalance: string
+		remainingMonths: string
+		scheduledMonthlyPayment: string
+		late24MonthsReported: string
+		estimatedAPR: string
+	}[]
 }
 
 export interface CreditVisionCharacteristic {
@@ -43,6 +51,28 @@ export function addonProductHandler(_addonProducts: AddonProduct | AddonProduct[
 						case 'US33S': {
 							response.creditVision.unsecuredBalance = value
 						}
+					}
+				}
+				break
+			}
+			case '07070': {
+				const summary = addonProduct.autoCreditSummary?.autoLoanSummary
+				if (summary) {
+					const autoSummary: AddonHandlerResponse['autoSummary'] = []
+					for (const entry of summary) {
+						if (entry.accountOpenStatus === 'true') {
+							autoSummary.push({
+								subscriberName: entry.creditorContact?.subscriber?.name?.unparsed,
+								currentBalance: entry.currentBalance,
+								estimatedAPR: entry.estimatedAPR,
+								late24MonthsReported: entry.late24MonthsReported,
+								remainingMonths: entry.remainingMonths,
+								scheduledMonthlyPayment: entry.scheduledMonthlyPayment
+							})
+						}
+					}
+					if (autoSummary.length) {
+						response.autoSummary = autoSummary
 					}
 				}
 			}

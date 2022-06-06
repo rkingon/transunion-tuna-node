@@ -42,7 +42,7 @@ describe('TransunionClient', () => {
 	})
 	test('modelReport', async () => {
 		nock(client.apiUrl).post('/').reply(200, modelReportResponse)
-		const { vantageScore, socialSecurityNumber, tradeLines, creditVision } = await client.modelReport({
+		const { vantageScore, socialSecurityNumber, tradeLines, creditVision, autoSummary } = await client.modelReport({
 			subjects: [TigerWoods]
 		})
 		expect(+vantageScore!).toBe(667)
@@ -51,6 +51,7 @@ describe('TransunionClient', () => {
 		expect(+(creditVision?.autoTradeLineCount ?? 0)).toBe(2)
 		expect(+(creditVision?.creditCardBalance ?? 0)).toBe(4321)
 		expect(+(creditVision?.unsecuredBalance ?? 0)).toBe(1234)
+		expect(autoSummary?.length).toBeGreaterThan(0)
 	})
 	test('creditReport', async () => {
 		nock(client.apiUrl).post('/').reply(200, creditReportResponse)

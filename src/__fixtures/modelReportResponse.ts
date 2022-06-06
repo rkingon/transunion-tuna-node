@@ -231,6 +231,215 @@ export default `<?xml version="1.0" encoding="UTF-8"?>
 						</characteristic>
 					</scoreModel>
 				</addOnProduct>
+				<addOnProduct>
+                    <code>07070</code>
+                    <status>delivered</status>
+                    <autoCreditSummary searchStatus="autoLoanFoundAvailableCreditFound">
+                        <autoLoanSummary>
+                            <account>
+                                <type>AU</type>
+                            </account>
+                            <cosigner>true</cosigner>
+                            <currentBalance>16015</currentBalance>
+                            <remainingMonths>49</remainingMonths>
+                            <scheduledMonthlyPayment>336</scheduledMonthlyPayment>
+                            <late24MonthsReported>0</late24MonthsReported>
+                            <estimatedAPR>5.956</estimatedAPR>
+                            <accountOpenStatus>true</accountOpenStatus>
+                            <creditorContact>
+                                <decodeData>trade</decodeData>
+                                <subscriber>
+                                    <contactMethod>phone</contactMethod>
+                                    <industryCode>BI</industryCode>
+                                    <memberCode>09302020</memberCode>
+                                    <inquirySubscriberPrefixCode>0000</inquirySubscriberPrefixCode>
+                                    <name>
+                                        <unparsed>5/3 BANK NA</unparsed>
+                                    </name>
+                                    <address>
+                                        <street>
+                                            <unparsed>5050 KINGSLEY DR</unparsed>
+                                            <unparsed>MD 1MOCOP</unparsed>
+                                        </street>
+                                        <location>
+                                            <city>CINCINNATI</city>
+                                            <state>OH</state>
+                                            <zipCode>45263</zipCode>
+                                        </location>
+                                    </address>
+                                    <phone source="file">
+                                        <number>
+                                            <qualifier>reportingCredit</qualifier>
+                                            <type>undefined</type>
+                                            <areaCode>800</areaCode>
+                                            <exchange>972</exchange>
+                                            <suffix>3030</suffix>
+                                        </number>
+                                    </phone>
+                                </subscriber>
+                            </creditorContact>
+                        </autoLoanSummary>
+                        <autoLoanSummary>
+                            <account>
+                                <type>AU</type>
+                            </account>
+                            <cosigner>false</cosigner>
+                            <currentBalance>2481</currentBalance>
+                            <remainingMonths>7</remainingMonths>
+                            <scheduledMonthlyPayment>254</scheduledMonthlyPayment>
+                            <late24MonthsReported>0</late24MonthsReported>
+                            <estimatedAPR>6.302</estimatedAPR>
+                            <accountOpenStatus>true</accountOpenStatus>
+                            <creditorContact>
+                                <decodeData>trade</decodeData>
+                                <subscriber>
+                                    <contactMethod>phone</contactMethod>
+                                    <industryCode>BZ</industryCode>
+                                    <memberCode>0617C042</memberCode>
+                                    <inquirySubscriberPrefixCode>0000</inquirySubscriberPrefixCode>
+                                    <name>
+                                        <unparsed>JPMCB HOME</unparsed>
+                                    </name>
+                                    <address>
+                                        <street>
+                                            <unparsed>700 KANSAS LANE</unparsed>
+                                            <unparsed>MAIL CODE LA4-6945</unparsed>
+                                        </street>
+                                        <location>
+                                            <city>MONROE</city>
+                                            <state>LA</state>
+                                            <zipCode>71203</zipCode>
+                                        </location>
+                                    </address>
+                                    <phone source="file">
+                                        <number>
+                                            <qualifier>reportingCredit</qualifier>
+                                            <type>undefined</type>
+                                            <areaCode>800</areaCode>
+                                            <exchange>848</exchange>
+                                            <suffix>9136</suffix>
+                                        </number>
+                                    </phone>
+                                </subscriber>
+                            </creditorContact>
+                        </autoLoanSummary>
+                        <autoLoanSummary>
+                            <account>
+                                <type>AU</type>
+                            </account>
+                            <cosigner>false</cosigner>
+                            <currentBalance>0</currentBalance>
+                            <remainingMonths>0</remainingMonths>
+                            <scheduledMonthlyPayment>264</scheduledMonthlyPayment>
+                            <late24MonthsReported>0</late24MonthsReported>
+                            <estimatedAPR>11.913</estimatedAPR>
+                            <accountOpenStatus>false</accountOpenStatus>
+                            <creditorContact>
+                                <decodeData>trade</decodeData>
+                                <subscriber>
+                                    <contactMethod>phone</contactMethod>
+                                    <industryCode>FA</industryCode>
+                                    <memberCode>01R18003</memberCode>
+                                    <inquirySubscriberPrefixCode>0000</inquirySubscriberPrefixCode>
+                                    <name>
+                                        <unparsed>SANTANDER</unparsed>
+                                    </name>
+                                    <address>
+                                        <street>
+                                            <unparsed>PO BOX  961211</unparsed>
+                                        </street>
+                                        <location>
+                                            <city>FORT WORTH</city>
+                                            <state>TX</state>
+                                            <zipCode>76161</zipCode>
+                                        </location>
+                                    </address>
+                                    <phone source="file">
+                                        <number>
+                                            <qualifier>reportingCredit</qualifier>
+                                            <type>undefined</type>
+                                            <areaCode>888</areaCode>
+                                            <exchange>222</exchange>
+                                            <suffix>4227</suffix>
+                                        </number>
+                                    </phone>
+                                </subscriber>
+                            </creditorContact>
+                        </autoLoanSummary>
+                        <autoLoanSummary>
+                            <account>
+                                <type>AU</type>
+                            </account>
+                            <cosigner>false</cosigner>
+                            <currentBalance>0</currentBalance>
+                            <remainingMonths>0</remainingMonths>
+                            <scheduledMonthlyPayment>323</scheduledMonthlyPayment>
+                            <late24MonthsReported>0</late24MonthsReported>
+                            <estimatedAPR>6.318</estimatedAPR>
+                            <accountOpenStatus>false</accountOpenStatus>
+                            <creditorContact>
+                                <decodeData>trade</decodeData>
+                                <subscriber>
+                                    <contactMethod>other</contactMethod>
+                                    <industryCode>QU</industryCode>
+                                    <memberCode>0399Y001</memberCode>
+                                    <inquirySubscriberPrefixCode>0000</inquirySubscriberPrefixCode>
+                                    <name>
+                                        <unparsed>MOTORCITY CO</unparsed>
+                                    </name>
+                                    <address>
+                                        <street>
+                                            <unparsed>37321 GARFIELD</unparsed>
+                                        </street>
+                                        <location>
+                                            <city>CLINTON TOWNSHIP</city>
+                                            <state>MI</state>
+                                            <zipCode>48036</zipCode>
+                                        </location>
+                                    </address>
+                                </subscriber>
+                            </creditorContact>
+                        </autoLoanSummary>
+                        <autoLoanSummary>
+                            <account>
+                                <type>AL</type>
+                            </account>
+                            <cosigner>false</cosigner>
+                            <currentBalance>0</currentBalance>
+                            <remainingMonths>0</remainingMonths>
+                            <scheduledMonthlyPayment>0</scheduledMonthlyPayment>
+                            <late24MonthsReported>0</late24MonthsReported>
+                            <estimatedAPR>0.000</estimatedAPR>
+                            <accountOpenStatus>false</accountOpenStatus>
+                            <creditorContact>
+                                <decodeData>trade</decodeData>
+                                <subscriber>
+                                    <contactMethod>other</contactMethod>
+                                    <industryCode>FA</industryCode>
+                                    <memberCode>0624C003</memberCode>
+                                    <inquirySubscriberPrefixCode>0000</inquirySubscriberPrefixCode>
+                                    <name>
+                                        <unparsed>CHRYSLR FIN</unparsed>
+                                    </name>
+                                    <address>
+                                        <street>
+                                            <unparsed>P.O. BOX 9223</unparsed>
+                                        </street>
+                                        <location>
+                                            <city>FARMINGTON HILLS</city>
+                                            <state>MI</state>
+                                            <zipCode>48333</zipCode>
+                                        </location>
+                                    </address>
+                                </subscriber>
+                            </creditorContact>
+                        </autoLoanSummary>
+                        <creditAvailabilitySummary>
+                            <type>revolving</type>
+                            <availableCreditAmount>55360</availableCreditAmount>
+                        </creditAvailabilitySummary>
+                    </autoCreditSummary>
+                </addOnProduct>
 			</subjectRecord>
 		</subject>
 	</product>
