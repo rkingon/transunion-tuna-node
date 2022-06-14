@@ -26,6 +26,7 @@ export interface TransunionClientOptions {
 	certificate: Buffer
 	production: boolean
 	timeout?: number
+	apiUrl?: string
 }
 
 export type RequestOptions<T extends Record<string, unknown> = {}> = T & {
@@ -78,8 +79,14 @@ export class TransunionClient {
 	public readonly apiUrl: string
 
 	constructor(private readonly options: TransunionClientOptions) {
-		this.apiUrl =
-			options.production === true ? 'https://netaccess.transunion.com' : 'https://netaccess-test.transunion.com'
+		if (options.apiUrl) {
+			this.apiUrl = options.apiUrl
+		} else {
+			this.apiUrl =
+				options.production === true
+					? 'https://netaccess.transunion.com'
+					: 'https://netaccess-test.transunion.com'
+		}
 		const httpsAgent = new https.Agent({
 			pfx: this.options.certificate,
 			passphrase: this.options.system.password,
