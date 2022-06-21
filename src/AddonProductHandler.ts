@@ -57,7 +57,7 @@ export function addonProductHandler(_addonProducts: AddonProduct | AddonProduct[
 			}
 			case '07070': {
 				const summary = addonProduct.autoCreditSummary?.autoLoanSummary
-				if (summary) {
+				if (summary?.length) {
 					const autoSummary: AddonHandlerResponse['autoSummary'] = []
 					for (const entry of summary) {
 						if (entry.accountOpenStatus === 'true') {
