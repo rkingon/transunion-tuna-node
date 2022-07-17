@@ -39,6 +39,10 @@ export const createSubjects = (subjects: Subject[]): string => {
 				zipCode: subject.address.zipCode
 			}
 		}
+		let socialSecurityNumber
+		if (subject.socialSecurityNumber) {
+			socialSecurityNumber = subject.socialSecurityNumber.replace(/\D/g, '')
+		}
 		xml += xmlBuilder.build({
 			subject: {
 				number: i++,
@@ -46,7 +50,7 @@ export const createSubjects = (subjects: Subject[]): string => {
 					indicative: {
 						name,
 						address,
-						socialSecurityNumber: subject.socialSecurityNumber,
+						socialSecurityNumber,
 						dateOfBirth: subject.dateOfBirth
 					}
 				}
