@@ -150,7 +150,7 @@ export class TransunionClient {
 				})
 			}
 			const returnResponse: RequestResponse = {
-				rawRequest: xmlResponse,
+				rawRequest: xmlRequest,
 				rawResponse: xmlResponse
 			}
 			const record = parsed?.creditBureau?.product?.subject?.subjectRecord
